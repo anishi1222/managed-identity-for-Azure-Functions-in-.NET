@@ -3,8 +3,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <RootNamespace>Func_cs02</RootNamespace>
-    <ApplicationInsightsResourceId />
-    <UserSecretsId />
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.18.0" />
