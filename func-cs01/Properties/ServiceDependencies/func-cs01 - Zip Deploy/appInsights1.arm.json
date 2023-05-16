@@ -4,7 +4,7 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "Func_Java",
+      "defaultValue": "Func",
       "metadata": {
         "_parameterType": "resourceGroup",
         "description": "このリソースのリソース グループの名前。追跡機能を向上させるため、同じリソース グループにリソースを配置することをお勧めします。"
@@ -12,7 +12,7 @@
     },
     "resourceGroupLocation": {
       "type": "string",
-      "defaultValue": "westus2",
+      "defaultValue": "japaneast",
       "metadata": {
         "_parameterType": "location",
         "description": "リソース グループの場所。リソース グループには、リソースとは異なる場所を指定できます。"
@@ -36,7 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('funcfunc', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('func-test', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -49,7 +49,7 @@
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "name": "funcfunc",
+              "name": "func-test",
               "type": "microsoft.insights/components",
               "location": "[parameters('resourceLocation')]",
               "kind": "web",

@@ -5,7 +5,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Linq;
 
 namespace Func_cs02
 {
@@ -16,9 +16,8 @@ namespace Func_cs02
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function [auth-cs] processed a request.");
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            var data = await new StreamReader(req.Body).ReadToEndAsync();
+            req.Headers.ToList().ForEach(x => log.LogInformation($"{x.Key.ToString()}: {x.Value.ToString()}"));
             return new OkObjectResult("This is responded by function [auth-cs] in func-cs02. It means HTTP triggered function executed successfully.");
         }
     }
