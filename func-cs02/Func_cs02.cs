@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
@@ -20,7 +21,16 @@ namespace Func_cs02
         {
             foreach (var header in req.Headers)
             {
-                logger.LogInformation("{HeaderName}: {HeaderValue}", header.Key, header.Value.ToString());
+                var safeHeaderName = header.Key
+                    .Replace(Environment.NewLine, " ")
+                    .Replace("\r", " ")
+                    .Replace("\n", " ");
+                var safeHeaderValue = header.Value.ToString()
+                    .Replace(Environment.NewLine, " ")
+                    .Replace("\r", " ")
+                    .Replace("\n", " ");
+
+                logger.LogInformation("{HeaderName}: {HeaderValue}", safeHeaderName, safeHeaderValue);
             }
 
             return new OkObjectResult("This is responded by function [auth-cs] in func-cs02. It means HTTP triggered function executed successfully.");
