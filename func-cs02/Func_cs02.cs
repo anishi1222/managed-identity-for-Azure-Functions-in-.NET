@@ -1,23 +1,28 @@
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 
 namespace Func_cs02
 {
-    public static class FuncCs02
+    public class FuncCs02
     {
-        [FunctionName("auth-cs")]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
-            ILogger log)
+        private readonly ILogger<FuncCs02> logger;
+
+        public FuncCs02(ILogger<FuncCs02> logger)
         {
-            var data = await new StreamReader(req.Body).ReadToEndAsync();
-            req.Headers.ToList().ForEach(x => log.LogInformation($"{x.Key.ToString()}: {x.Value.ToString()}"));
+            this.logger = logger;
+        }
+
+        [Function("auth-cs")]
+        public IActionResult Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
+        {
+            foreach (var header in req.Headers)
+            {
+                logger.LogInformation("{HeaderName}: {HeaderValue}", header.Key, header.Value.ToString());
+            }
+
             return new OkObjectResult("This is responded by function [auth-cs] in func-cs02. It means HTTP triggered function executed successfully.");
         }
     }

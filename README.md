@@ -2,6 +2,12 @@
 
 Sample C# codes to authenticate and authorize managed identity of Azure functions.
 
+## Runtime
+
+- Targets .NET 10 on Azure Functions v4 using the isolated worker model.
+- Set `FUNCTIONS_WORKER_RUNTIME` to `dotnet-isolated` for both function apps.
+- For Azure deployment, set the function app stack to .NET isolated 10.0. On Windows, use `netFrameworkVersion` `v10.0`; on Linux, use `linuxFxVersion` `DOTNET-ISOLATED|10.0` and a plan that supports .NET 10, such as Flex Consumption.
+
 ## func-cs01
 
 - Caller application (HTTP trigger) to call func-cs02.
