@@ -53,7 +53,8 @@ namespace Func_cs01
                 logger.LogError("Query Parameter is out of scope: {FuncType}", funcType);
                 return new BadRequestObjectResult($"Your specified API type is out of scope[{funcType}].");
             }
-            logger.LogInformation("Query Parameter: /api/call-from-cs?{FuncType}", funcType);
+            string safeFuncTypeForLog = funcType.Replace("\r", string.Empty).Replace("\n", string.Empty);
+            logger.LogInformation("Query Parameter: /api/call-from-cs?{FuncType}", safeFuncTypeForLog);
 
             ResMsg resMsg = new ResMsg();
             try
