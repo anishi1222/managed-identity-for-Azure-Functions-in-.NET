@@ -40,6 +40,7 @@ namespace Func_cs01
         {
             logger.LogInformation("C# HTTP trigger function processed a request [call-from-cs].");
             string funcType = req.Query["type"].ToString().ToLowerInvariant();
+            string safeFuncTypeForLog = funcType.Replace("\r", string.Empty).Replace("\n", string.Empty);
             System.Console.WriteLine($"funcType {funcType}");
 
             // Check funcType
@@ -50,10 +51,9 @@ namespace Func_cs01
             }
             if (!TargetInfos.TryGetValue(funcType, out TargetInfo target))
             {
-                logger.LogError("Query Parameter is out of scope: {FuncType}", funcType);
+                logger.LogError("Query Parameter is out of scope: {FuncType}", safeFuncTypeForLog);
                 return new BadRequestObjectResult($"Your specified API type is out of scope[{funcType}].");
             }
-            string safeFuncTypeForLog = funcType.Replace("\r", string.Empty).Replace("\n", string.Empty);
             logger.LogInformation("Query Parameter: /api/call-from-cs?{FuncType}", safeFuncTypeForLog);
 
             ResMsg resMsg = new ResMsg();
